@@ -1,1 +1,1 @@
-prints hello world
+A scripts thst prints hello world

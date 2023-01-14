@@ -1,0 +1,6 @@
+# Configuring of ssh client to ensure connection to a server without a password
+Host web-01
+	Hostname 35.174.184.145
+	user ubuntu
+	PasswordAuthentication no
+	IdentityFile ~/.ssh/school

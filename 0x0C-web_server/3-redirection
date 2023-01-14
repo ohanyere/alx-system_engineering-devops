@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# A script that configure Nginx server so it redirects to another page
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html/
+touch /var/www/html/index.html
+chown -R "$USER":"$USER" /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		return 301 https://github.com/ohanyere;
+	}
+}"
+
+echo -e "$SERVER_CONFIG" > /etc/nginx/sites-enabled/default
+
+service nginx restart
+# using sed:
+# sed -i s/"location \/ {"/"location \/redirect_me {\n \t \t \t return 301 https:\/\/github.com\/Dannyfsp;"/g /etc/nginx/sites-available/default

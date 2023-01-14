@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# A script that installs nginx server
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html/
+touch /var/www/html/index.html
+chown -R "$USER":"$USER" /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+service nginx restart

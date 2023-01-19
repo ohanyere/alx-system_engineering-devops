@@ -17,7 +17,7 @@ frontend  web-frontend
 backend web-backend
         balance roundrobin
         server 74143-web-01 35.174.184.145:80 check
-        server 74143-web-02 54.84.42.155:80 check
+        server 74143-web-02 34.201.61.234:80 check
 "
 echo -e "$server_config" >> /etc/haproxy/haproxy.cfg
 

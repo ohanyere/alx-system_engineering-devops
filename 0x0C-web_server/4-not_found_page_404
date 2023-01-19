@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# A script that configure Nginx server to have a custom 404 page
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html/
+mkdir -p /var/www/error/
+touch /var/www/html/index.html
+touch /var/www/error/error_404.html
+chown -R "$USER":"$USER" /var/www/html/index.html
+chown -R "$USER":"$USER" /var/www/error/error_404.html
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/error/error_404.html
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		return 301 https://github.com/ohanyere;
+	}
+	error_page 404 /error_404.html;
+		location /error_404.html {
+			root /var/www/error/;
+			internal;
+		}
+}"
+
+echo -e "$SERVER_CONFIG" > /etc/nginx/sites-enabled/default
+
+service nginx restart

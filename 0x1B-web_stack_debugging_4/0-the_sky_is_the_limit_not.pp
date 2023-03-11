@@ -1,4 +1,4 @@
-ng of failed request in the web server setup that features Nginx
+# Fixing of failed request in the web server setup that features Nginx
 
 exec {'replace':
   provider => shell,
